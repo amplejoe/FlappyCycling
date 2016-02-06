@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/highscore.css" type="text/css" />
+    <script src="js/sha512.js"></script>
+</head>
+<body>
+
+    <div id="content">
+
+        <div class="centered textcentered">
+            <button id="clearButton" type="button" onclick="clearHighscore()">Clear Highscore</button>
+            <h1>Flappy Cycling Highscore</h1>
+        </div>
+
+        <div id="highscores"></div>
+
+        <script>
+
+            // if pass phrase forgotten uncomment lines below to generate a new one
+            var passPhraseHash = "b4e124eb6abb41cc48148c405853e3498362c625c0a229355bd8f4294d61058db4d2ee1dd70d4b34cecb4a3cd86abe796a924ce4ff08e1c32b431a38edc88d77";
+           //var hash = CryptoJS.SHA512("example");
+           //console.log(hash.toString(CryptoJS.enc.Hex));
+
+           printHighScores();
+
+           function printHighScores()
+           {
+               var highScoreSize =  parseInt(localStorage["flappy.highscore.count"]);
+               var highscoresString = "<table id='highscoreTable' class='centered'><thead><tr><th>Player</th><th>Score</th><th>Time</th></tr></thead>";
+
+               for (var i=0;i<highScoreSize;i++)
+               {
+                   var oddClass = (i % 2 == 0)? "" : " class='odd'";
+                   highscoresString += "<tbody><tr"+oddClass+">";
+                   highscoresString += "<th>"+(i+1)+"</th>";
+                   highscoresString += "<td>"+localStorage["flappy.highscore."+i+".score"]+"</td>";
+                   highscoresString += "<td>"+localStorage["flappy.highscore."+i+".time"]+"</td>";
+                   highscoresString += "</tr></tbody>";
+               }
+
+               highscoresString += "<tfoot><th>Total</th><td colspan='2'>"+highScoreSize+" Scores</td></tfoot></table>";
+
+               document.getElementById('highscores').innerHTML = highscoresString;
+           }
+
+
+           function clearHighscore()
+           {
+               var result = prompt("Please enter the pass phrase:", "");
+
+               if (result == null) return;
+
+               var resultHash = CryptoJS.SHA512(result);
+               var resultHashString = resultHash.toString(CryptoJS.enc.Hex);
+
+               //console.log(passPhraseHash);
+               //console.log(resultHashString);
+
+               if (resultHashString == passPhraseHash) {
+
+                   // careful - deletes all localstorage
+                   //localStorage.clear();
+
+                   // only delete highscore for flappy
+                   var highScoreSize =  parseInt(localStorage["flappy.highscore.count"]);
+
+                   for (var i=0;i<highScoreSize;i++)
+                   {
+                       localStorage.removeItem("flappy.highscore."+i+".score");
+                       localStorage.removeItem("flappy.highscore."+i+".time");
+                   }
+                   if (highScoreSize > 0) localStorage.removeItem("flappy.highscore.count");
+
+               }
+               else alert("Passphase wrong!");
+
+               location.reload();
+           }
+        </script>
+        <br><br>
+
+    </div>
+
+</body>
+</html>
