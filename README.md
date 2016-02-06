@@ -15,7 +15,7 @@ All assets used are under creative commons licenses, that allow non-commercial u
 GFX [OpenGameArt](http://opengameart.org):
 * MoikMellah (Bird)
 * Redshrike (Crow) 
-* Tiny Speck (BG), extracted by jakegamer (orig. from public domain 'Glitch' game)
+* Tiny Speck (BG), extracted by jakegamer (originally from public domain 'Glitch' game)
 
 SFX [FreeSound](http://freesound.org): 
 * Rick Hoppmann (Ambience)
