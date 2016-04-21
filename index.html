@@ -8,6 +8,7 @@
     <script src="phaserLib/phaser.js"></script>
     <script src="js/config.js"></script>
     <script src="js/Utils/UtilFunctions.js"></script>
+    <script src="js/States/StateDefs.js"></script>
     <script src="js/Utils/Timer.js"></script>
     <script src="js/Utils/IntervalTimer.js"></script>
     <script src="js/Utils/RandomIntervalTimer.js"></script>
@@ -22,5 +23,20 @@
 </head>
 <body>
     <div id="content"></div>
+
+    <div id="overlay">
+        <div>
+            <form name="emailForm" onsubmit="return setEmail();">
+                <p>Game Over! </p>
+                <p id="score"></p>
+                <p id="rank"></p>
+                <p>Enter your email: </p>
+                <input type="email" name="email" autofocus>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+
+
 </body>
 </html>

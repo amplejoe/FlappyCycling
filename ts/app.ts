@@ -62,7 +62,7 @@ class SimpleFlappyBird
         this.game.load.audio("ding", "assets/sound/ding.mp3");
         this.game.load.audio("loose", "assets/sound/loose.mp3");
         this.game.load.audio("hit", "assets/sound/groan.wav");
-
+        
     }
 
     create()
@@ -80,14 +80,21 @@ class SimpleFlappyBird
         this.game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
     }
 
+    public getGame()
+    {
+        return this.game;
+    }
 
 }
+
+// global game variable
+var simpleflappy;
 
 window.onload = () =>
 {
     var height = window.innerHeight;
     var width = window.innerWidth;
-    var game = new SimpleFlappyBird(width, height);
+    simpleflappy = new SimpleFlappyBird(width, height);
 
 };
 
@@ -105,4 +112,13 @@ function finishedResize()
 {
     //console.log("window was resized!");
     location.reload(); // reload page to adjust to resolution
+}
+
+// communicates with gameoverstate (index.html form -> GameoverScreenstate.setEmail)
+function setEmail() { // declare a function in the global namespace
+    // find gameoverstate in game (must exist)
+    var game = simpleflappy.getGame();
+    game.state.states['GameOverScreenState'].setEmail(); // gameOverscreenstate should exist
+    //game.state.start('GameOverScreenState');
+    return false; // prevents form submit
 }

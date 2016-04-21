@@ -32,11 +32,8 @@ module Sprites
             this.outline = new Phaser.Sprite(this.game, x, y, 'BIRD_OUTLINE', 0);
                 //this.game.add.sprite(200,birdStartHeight,'BIRD_OUTLINE');
 
-            // keys
-            this.FLY_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
-            this.LEFT_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
-            this.RIGHT_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.C);
-            this.FLY_BUTTON.onDown.add(Sprites.Bird.prototype.flap, this);
+            // toggle input keys
+            this.addKeys();
             //this.LEFT_BUTTON.onDown.add(Sprites.Bird.prototype.flyLeft, this);
             //this.RIGHT_BUTTON.on.add(Sprites.Bird.prototype.flyRight, this);
 
@@ -51,7 +48,7 @@ module Sprites
             this.game.physics.enable(this, Phaser.Physics.ARCADE);
             this.body.collideWorldBounds = true;
             this.body.bounce.set(0.4);
-            this.body.setSize(78,86, 10, 0);
+            this.body.setSize(74,66, 12, 10);
             // for collisions
             //this.enableBody = true;
             //this.physicsBodyType = Phaser.Physics.ARCADE;
@@ -60,7 +57,7 @@ module Sprites
             this.game.physics.enable(this.outline, Phaser.Physics.ARCADE);
             this.outline.body.collideWorldBounds = true;
             this.outline.body.bounce.set(0.4);
-            this.outline.body.setSize(78,86, 10, 0);
+            this.outline.body.setSize(74,66, 12, 10);
 
             // add bird & outline to game
             var birdStartHeight = (this.game.height/2) - (this.height/2);
@@ -74,6 +71,24 @@ module Sprites
 
             //this.anchor.set(0.0,0.5); // default sprite anchor point: top left corner
 
+        }
+        
+        // add input keys
+        addKeys(): void
+        {
+            // keys
+            this.FLY_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
+            this.LEFT_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
+            this.RIGHT_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.C);
+            this.FLY_BUTTON.onDown.add(Sprites.Bird.prototype.flap, this);
+        }
+        
+        // remove input keys
+        removeKeys(): void
+        {            
+            this.game.input.keyboard.removeKey(this.FLY_BUTTON.keyCode);
+            this.game.input.keyboard.removeKey(this.LEFT_BUTTON.keyCode);
+            this.game.input.keyboard.removeKey(this.RIGHT_BUTTON.keyCode);
         }
 
         flap(): void

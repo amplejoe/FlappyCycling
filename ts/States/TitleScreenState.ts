@@ -60,7 +60,7 @@ module States {
             this.START_BUTTON = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
             this.START_BUTTON.onDown.add(TitleScreenState.prototype.buttonPressed, this);
 
-            //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL; //resize your window to see the stage resize too
+            //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL; //resize your window to see the screenState resize too
             //this.fullScreenKey = this.game.input.keyboard.addKey(Phaser.Keyboard.F);
             //this.fullScreenKey.onDown.add(this.toggleFull, this);
 

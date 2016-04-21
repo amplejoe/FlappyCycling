@@ -29,19 +29,20 @@
            function printHighScores()
            {
                var highScoreSize =  parseInt(localStorage["flappy.highscore.count"]);
-               var highscoresString = "<table id='highscoreTable' class='centered'><thead><tr><th>Player</th><th>Score</th><th>Time</th></tr></thead>";
+               var highscoresString = "<table id='highscoreTable' class='centered'><thead><tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr></thead>";
 
                for (var i=0;i<highScoreSize;i++)
                {
                    var oddClass = (i % 2 == 0)? "" : " class='odd'";
                    highscoresString += "<tbody><tr"+oddClass+">";
                    highscoresString += "<th>"+(i+1)+"</th>";
+                   highscoresString += "<th>"+localStorage["flappy.highscore."+i+".email"]+"</th>";
                    highscoresString += "<td>"+localStorage["flappy.highscore."+i+".score"]+"</td>";
                    highscoresString += "<td>"+localStorage["flappy.highscore."+i+".time"]+"</td>";
                    highscoresString += "</tr></tbody>";
                }
 
-               highscoresString += "<tfoot><th>Total</th><td colspan='2'>"+highScoreSize+" Scores</td></tfoot></table>";
+               highscoresString += "<tfoot><th>Total</th><td colspan='3'>"+highScoreSize+" Scores</td></tfoot></table>";
 
                document.getElementById('highscores').innerHTML = highscoresString;
            }
@@ -69,6 +70,7 @@
 
                    for (var i=0;i<highScoreSize;i++)
                    {
+                       localStorage.removeItem("flappy.highscore."+i+".email");
                        localStorage.removeItem("flappy.highscore."+i+".score");
                        localStorage.removeItem("flappy.highscore."+i+".time");
                    }

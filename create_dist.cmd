@@ -49,6 +49,7 @@ echo ################## Minifying js files ####################
 java -jar "tools\closure\compiler.jar" ^
        --js js\config.js ^
        --js js\Utils\UtilFunctions.js ^
+       --js js\States\StateDefs.js ^
        --js js\Utils\Timer.js ^
        --js js\Utils\IntervalTimer.js ^
        --js js\Utils\CountdownTimer.js ^

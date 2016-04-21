@@ -193,7 +193,7 @@ module States
 
         generateEnemy()
         {
-            var randomSpawnHeight: number = this.rndGen.realInRange(1.0/3.0, 2.0/3.0);
+            var randomSpawnHeight: number = this.rndGen.realInRange(1.0/3.0-0.1, 2.0/3.0+0.1);
 
             var crow: Sprites.Enemy = new Sprites.Enemy(this.game, this.game.width+500, this.game.height * randomSpawnHeight-100, this.bird);
             crow.onHit(this.enemyHit);
@@ -271,6 +271,7 @@ module States
 
         }
         */
+        
 
         calcScore()
         {
@@ -417,12 +418,12 @@ module States
             var endScore: number = this.toInt(this.score);
             var endTime: string = this.getFormattedTime(this.toInt(this.game.time.elapsedSecondsSince(this.startTime)));
             this.game.state.states['GameOverScreenState'].setTotalTime(endTime);
-            this.game.state.states['GameOverScreenState'].setScore(endScore);
-            var rank:number = Utils.UtilFunctions.addHighscoreEntrySorted(endScore,endTime);
-            this.game.state.states['GameOverScreenState'].setRank(rank);
+            this.game.state.states['GameOverScreenState'].setScore(endScore);            
             this.sound.stopAll();
             //var failSoundIndex:number = this.rndGen.integerInRange(2, this.effects.length-1);
             //this.effects[3].play();
+            // clean up bird keys (for highscore input)
+            this.bird.removeKeys();
             this.bird.die();
             this.game.state.start("GameOverScreenState");
         }

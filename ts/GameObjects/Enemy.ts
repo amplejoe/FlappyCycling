@@ -19,7 +19,8 @@ module Sprites
         effects: Array<Phaser.Sound>;
 
         // rnd vars
-        flyHeight: number;
+        flyDestination: number;
+        minYDiff: number; // minimal height difference (enemies should not fly too straight)
         flyDuration: number;
         flySpeed: number;
         maxFlySpeed: number = 6000;
@@ -59,12 +60,14 @@ module Sprites
             this.game.physics.enable(this.outline, Phaser.Physics.ARCADE);
             this.body.moves = false; // necessary so body does not fall
             this.outline.body.moves = false;
-            this.body.setSize(72,80, -20, -10); // not needed for outline
+            this.body.setSize(72,60, -20, -20); // not needed for outline
 
             var seed: number = this.game.time.time;
             this.rndGen = new Phaser.RandomDataGenerator([seed]);
 
             this.game = game;
+
+            this.minYDiff = this.game.world.height * (1.0/5.0);
 
             this.tweens = new Array();
             this.outlineTweens = new Array();
@@ -86,14 +89,29 @@ module Sprites
         // sets bird to be killed on out of bounds
         setDeathSentence(): void
         {
-            console.log(this.id + " enemy entered scene!");
+            //console.log(this.id + " enemy entered scene!");
             this.effects[0].play();
             this.events.onOutOfBounds.add(this.outOfBoundsDie, this);
         }
 
         randomizeProperties()
         {
-            this.flyHeight = this.rndGen.realInRange(1.0/3.0, 2.0/3.0);
+            //this.flyDestination = this.rndGen.realInRange(1.0/3.0, 2.0/3.0);
+            // flyheight calc
+            var coin = this.rndGen.integerInRange(0, 1);
+            //var direction = (coin < 1) ? -1 : 1;          
+            // middle third of screen bounds   
+            var lowerBound = this.game.world.height * (1.0/3.0);
+            var upperBound = this.game.world.height * (2.0/3.0);
+            this.flyDestination = this.rndGen.realInRange(lowerBound,upperBound);
+
+            
+            if (Math.abs(this.flyDestination - this.y) < this.minYDiff) 
+            {
+                if (this.flyDestination < this.y) this.flyDestination -= this.minYDiff;
+                else this.flyDestination += this.minYDiff;
+            }
+
             this.flyDuration = this.rndGen.integerInRange(1000, 3000);
             this.flySpeed = this.rndGen.integerInRange(3000, this.maxFlySpeed);
         }
@@ -184,8 +202,9 @@ module Sprites
         {
             //to(properties: any, duration?: number, ease?: Function, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean)
             tweens[0] = this.game.add.tween(sprite).to({ x: 0-500}, this.flySpeed, Phaser.Easing.Linear.None, true);
-            tweens[1] = this.game.add.tween(sprite).to({ y: this.game.world.height*this.flyHeight+this.height}, this.flyDuration, Phaser.Easing.Quadratic.InOut, true, 1000, -1, true);
-
+            //tweens[1] = this.game.add.tween(sprite).to({ y: this.game.world.height*this.flyDestination+this.height}, this.flyDuration, Phaser.Easing.Quadratic.InOut, true, 1000, -1, true);
+            tweens[1] = this.game.add.tween(sprite).to({ y: this.flyDestination}, this.flyDuration, Phaser.Easing.Quadratic.InOut, true, 1000, -1, true);
+            //console.log("enemy.y("+this.y+") -> "+(this.flyDestination)+"  MIN: "+this.minYDiff);
         }
 
         outOfBoundsDie()
@@ -194,7 +213,7 @@ module Sprites
             this.game.tweens.remove(this.tweens[1]);
             this.game.tweens.remove(this.outlineTweens[0]);
             this.game.tweens.remove(this.outlineTweens[1]);
-            console.log(this.id + " is dying...");
+            //console.log(this.id + " is dying...");
             if (this.body.moves) this.effects[1].play();
             this.outline.destroy();
             this.destroy();
