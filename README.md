@@ -1,4 +1,8 @@
 # FlappyCycling
+
+![Screenshot](screenshots/title.png)
+
+---
 A flappy bird clone used in combination with input from an ergometer. It has been part of a master thesis study conducted at the [Alpen-Adria University](https://www.aau.at/) (AAU), Klagenfurt. The goal of the game is to control a bird via cycling on an ergometer and dodging enemy birds flying towards the player by using the ergometer's pulse handles. The goal is to fly for 5 minutes, stay in the middle third of the screen and rack up as much points as possible. Points are gathered via a multiplier that gets reset every time the screen is grayed out, i.e. the bird exits the designated screen area or is hit by an enemy bird. Touching the ground triggers an instant game over.
 
 This work is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](http://creativecommons.org/licenses/by-nc/4.0/).
